@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $pluginDirectory: "%kimai.plugin_dir%"
+            $dataDirectory: "%kimai.data_dir%"
+
+    KimaiPlugin\NeontribeCvsImportBundle\:
+        resource: '../../*'
+        exclude: '../../{Resources}'
+
+
+    KimaiPlugin\NeontribeCvsImportBundle\Command\NeontribeCvsImportCommand:
+        tags:
+           - { name: 'console.command', command: 'neontribe:csv:import' }
+
