@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/datatables.html.twig" as tables %}
+
+{% block page_title %}
+CSV Import
+{% endblock %}
+{% block page_subtitle %}
+Upload time sheets from a CSV file.
+{% endblock %}
+
+
+{% block main %}
+
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Upload and parse CSV file</h3>
+	</div>
+	{{ form_start(form) }}
+  <div class="box-body">
+    <p>This form submits as batch operation, calling itself. This
+      allows large files to be processed without blowing memory or time
+      stacks. If you are running out of memory/time then lowwer the
+      "Records per action value".</p>
+  </div>
+	<div class="box-body">
+		<div>
+			{{ form_row(form.chunk) }}
+			{{ form_help(form.chunk) }}
+		</div>
+		<div>
+			{{ form_row(form.dryrun) }}
+			{{ form_help(form.dryrun) }}
+		</div>
+    <div>
+      {{ form_row(form.checkhashes) }}
+      {{ form_help(form.checkhashes) }}
+    </div>
+    <div>
+      {{ form_row(form.timesheet_ids) }}
+      {{ form_help(form.timesheet_ids) }}
+    </div>
+		<div>
+			{{ form_row(form.csvfile) }}
+			{{ form_help(form.csvfile) }}
+		</div>
+	</div>
+	<div class="box-footer">
+		<input type="submit" value="{{ 'action.save'|trans }}"
+			class="btn btn-primary" />
+		{% if back|default(false) %}
+		<a href="{{ back }}" class="btn btn-link">{{ 'action.back'|trans }}</a>
+		{% endif %}
+	</div>
+	{{ form_end(form) }}
+</div>
+{% endblock %}

@@ -6,12 +6,17 @@ services:
         bind:
             $pluginDirectory: "%kimai.plugin_dir%"
             $dataDirectory: "%kimai.data_dir%"
+            $appSecret: '%env(APP_SECRET)%'
 
     KimaiPlugin\NeontribeCvsImportBundle\:
         resource: '../../*'
         exclude: '../../{Resources}'
 
-
+    KimaiPlugin\NeontribeCvsImportBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+        public: true
+        
     KimaiPlugin\NeontribeCvsImportBundle\Command\NeontribeCvsImportCommand:
         tags:
            - { name: 'console.command', command: 'neontribe:csv:import' }
