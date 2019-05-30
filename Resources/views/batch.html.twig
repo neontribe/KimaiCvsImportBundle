@@ -11,11 +11,17 @@
 {% if dryrun %}
 <div class='alert alert-error fade in'>DRY RUN</div>
 {%  endif %}
+
+<div style='background: grey; width: 100%;'>
+  <div style='background: green; height: 30px; width: {{ progress }}%;'></div>
+</div>
+
 <div>
   Processed lines {{ offset }} to {{ offset + count }} of {{ total }}
   ({{ progress }}%)
 </div>
 
+<script>window.location = "{{ nextPhase }}"</script>
 <div><a href="{{ nextPhase }}">NEXT</a></div>
 
 {% endblock %}

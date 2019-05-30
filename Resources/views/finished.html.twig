@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% import "macros/widgets.html.twig" as widgets %}
+{% import "macros/datatables.html.twig" as tables %}
+
+{% block page_title %}
+CSV Import - Done
+{% endblock %}
+
+
+{% block main %}
+
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Import done.</h3>
+		Imported timesheets.
+	</div>
+</div>
+
+{% if warnings | length %}
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Warnings...</h3>
+	</div>
+	<ul>
+		{%  for line in warnings %}
+		<li>{{ line }}</li>
+		{%  endfor %}
+	</ul>
+</div>
+{% endif %}
+
+{% if errors | length %}
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Errors...</h3>
+	</div>
+	<ul>
+		{%  for line in errors %}
+		<li>{{ line }}</li>
+		{%  endfor %}
+	</ul>
+</div>
+{% endif %}
+
+{% if other | length %}
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Other...</h3>
+	</div>
+	<ul>
+		{%  for line in other %}
+		<li>{{ line }}</li>
+		{%  endfor %}
+	</ul>
+</div>
+{% endif %}
+{% endblock %}

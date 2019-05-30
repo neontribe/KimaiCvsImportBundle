@@ -32,7 +32,7 @@ class CsvUploadForm extends AbstractType {
       'help' => 'If checked each line of the cvs will be hashed and checked against hashes of previously imported records.  Duplicates will be ignored.'
     ]);
 
-    $builder->add('timesheet_ids', CheckboxType::class, [
+    $builder->add('checkids', CheckboxType::class, [
       'label' => 'Check timesheet ids',
       'required' => False,
       'data' => False,

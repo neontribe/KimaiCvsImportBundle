@@ -87,7 +87,10 @@ class NeontribeCvsImportService {
 
     if (! $dryrun) {
       $this->doctrine->getManager()->persist($timesheet);
+      return True;
     }
+
+    return False;
   }
 
   public function getCompany($customerName): Customer {
