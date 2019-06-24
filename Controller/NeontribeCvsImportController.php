@@ -6,6 +6,7 @@ use KimaiPlugin\NeontribeCvsImportBundle\Form\CsvUploadForm;
 use KimaiPlugin\NeontribeCvsImportBundle\Repository\NeontribeCvsImportRepository;
 use KimaiPlugin\NeontribeCvsImportBundle\Service\NeontribeCvsImportService;
 use Symfony\Component\HttpFoundation\Request;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -17,6 +18,11 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
  * @Security("is_granted('ROLE_SUPER_ADMIN') or is_granted('edit_custom_css')")
  */
 class NeontribeCvsImportController extends AbstractController {
+
+  /**
+   * @var LoggerInterface
+   */
+  protected $logger;
 
   /**
    *
@@ -34,9 +40,10 @@ class NeontribeCvsImportController extends AbstractController {
    *
    * @param NeontribeCvsImportRepository $repository
    */
-  public function __construct(NeontribeCvsImportRepository $repository, NeontribeCvsImportService $importService) {
+  public function __construct(LoggerInterface $logger, NeontribeCvsImportRepository $repository, NeontribeCvsImportService $importService) {
     $this->repository = $repository;
     $this->importService = $importService;
+    $this->logger = $logger;
   }
 
   /**
@@ -115,11 +122,13 @@ class NeontribeCvsImportController extends AbstractController {
         $lineNumber = $offset + $i;
         if ($checkhashes && $this->repository->checkHash($hash)) {
           $this->flashWarning("Duplicate line line (" . $hash . ") " . $lineNumber . ": " . $line);
+          $this->logger->warn("Duplicate line line (" . $hash . ") " . $lineNumber . ": " . $line);
           $this->repository->appendHistory('Duplicate (hash): ' . $line);
           continue;
         }
         if ($checkids && $this->repository->checkId($id)) {
           $this->flashWarning("Duplicate line line (" . $id . ") " . $lineNumber . ": " . $line);
+          $this->logger->warn("Duplicate line line (" . $id . ") " . $lineNumber . ": " . $line);
           $this->repository->appendHistory('Duplicate (id): ' . $line);
           continue;
         }
@@ -129,6 +138,7 @@ class NeontribeCvsImportController extends AbstractController {
         }
       } catch (\Throwable $error) {
         $this->flashError("Could not parse line " . $lineNumber . ": " . $line . ' - ' . $error->getMessage());
+        $this->logger->error("Could not parse line " . $lineNumber . ": " . $line . ' - ' . $error->getMessage());
         $this->repository->appendHistory('Error: ' . $line);
         $errorCount ++;
       }
