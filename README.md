@@ -1,3 +1,5 @@
 ## Kimai import plugin
 
-    git clone https://github.com/neontribe/KimaiCvsImportBundle.git var/plugins/NeontribeCvsImportBundle
+CSV import is now part of the kimai core. This isn't really supported anymore, sorry.
+
+https://www.kimai.org/documentation/imports.html
